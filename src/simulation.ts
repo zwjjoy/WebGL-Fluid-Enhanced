@@ -120,7 +120,7 @@ class Simulation {
     this.update();
 
     this.canvas.addEventListener('mousedown', this.handleMouseDown);
-    this.canvas.addEventListener('mousemove', this.handleMouseMove);
+    window.addEventListener('mousemove', this.handleMouseMove);
     window.addEventListener('mouseup', this.handleMouseUp);
     this.canvas.addEventListener('touchstart', this.handleTouchStart, {
       passive: false,
@@ -141,7 +141,7 @@ class Simulation {
     cancelAnimationFrame(this.animationFrameId);
 
     this.canvas.removeEventListener('mousedown', this.handleMouseDown);
-    this.canvas.removeEventListener('mousemove', this.handleMouseMove);
+    window.removeEventListener('mousemove', this.handleMouseMove);
     window.removeEventListener('mouseup', this.handleMouseUp);
     this.canvas.removeEventListener('touchstart', this.handleTouchStart);
     this.canvas.removeEventListener('touchmove', this.handleTouchMove);
@@ -168,8 +168,9 @@ class Simulation {
   };
 
   private handleMouseMove = (event: MouseEvent) => {
-    const posX = this.scaleByPixelRatio(event.offsetX);
-    const posY = this.scaleByPixelRatio(event.offsetY);
+    const rect = this.canvas.getBoundingClientRect();
+    const posX = this.scaleByPixelRatio(event.clientX - rect.left);
+    const posY = this.scaleByPixelRatio(event.clientY - rect.top);
     let pointer = this.pointers.find((p) => p.id == -1);
     if (!pointer) {
       pointer = new Pointer(this.colorPalette, this.brightness);
