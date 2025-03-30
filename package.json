@@ -27,6 +27,7 @@
   },
   "scripts": {
     "build": "vite build",
+    "prepare": "bun run build",
     "dev": "vite --host",
     "lint": "prettier --write . && eslint --fix .",
     "start": "vite serve",
